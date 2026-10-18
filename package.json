@@ -1,0 +1,15 @@
+{
+  "name": "loker-api",
+  "version": "1.0.0",
+  "description": "API loker gratis & selalu terupdate — aggregator 5 sumber, otomatis via GitHub Actions + Pages",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "update": "node scripts/update.mjs",
+    "preview": "node scripts/preview.mjs"
+  },
+  "license": "MIT"
+}

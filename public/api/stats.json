@@ -1,0 +1,32 @@
+{
+  "generated_at": "2026-10-18T21:26:05.411Z",
+  "total": 737,
+  "sources_failed": 0,
+  "by_source": {
+    "remoteok": 59,
+    "remotive": 9,
+    "jobicy": 200,
+    "arbeitnow": 500,
+    "kalibrr": 15
+  },
+  "by_category": {
+    "legal": 5,
+    "marketing": 56,
+    "tech": 177,
+    "sales": 93,
+    "other": 176,
+    "operations": 39,
+    "support": 41,
+    "hr": 20,
+    "finance": 39,
+    "design": 31,
+    "content": 9,
+    "data": 18,
+    "education": 21,
+    "health": 12
+  },
+  "by_country": {
+    "GLOBAL": 722,
+    "ID": 15
+  }
+}

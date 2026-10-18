@@ -1,0 +1,54 @@
+name: Refresh loker data
+
+on:
+  schedule:
+    - cron: "0 */2 * * *" # tiap 2 jam
+  workflow_dispatch: # tombol Run manual di tab Actions
+
+permissions:
+  contents: write # commit snapshot JSON
+  pages: write
+  id-token: write
+
+# Anti tabrakan: satu deploy pada satu waktu, jangan cancel yang sedang jalan.
+concurrency:
+  group: loker-api-deploy
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Fetch & generate API
+        run: node scripts/update.mjs
+
+      - name: Commit data snapshot
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/api
+          if git diff --cached --quiet; then
+            echo "Tidak ada perubahan data."
+          else
+            git commit -m "chore(data): refresh $(date -u +%Y-%m-%dT%H:%MZ)"
+            git push
+          fi
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+      - name: Deploy ke GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

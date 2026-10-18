@@ -1,0 +1,36 @@
+{
+  "name": "loker-api",
+  "description": "API loker gratis & terupdate — aggregator RemoteOK, Remotive, Jobicy, Arbeitnow, Kalibrr",
+  "generated_at": "2026-10-18T21:26:05.411Z",
+  "total": 737,
+  "attribution": [
+    {
+      "name": "RemoteOK",
+      "url": "https://remoteok.com"
+    },
+    {
+      "name": "Remotive",
+      "url": "https://remotive.com"
+    },
+    {
+      "name": "Jobicy",
+      "url": "https://jobicy.com"
+    },
+    {
+      "name": "Arbeitnow",
+      "url": "https://arbeitnow.com"
+    },
+    {
+      "name": "Kalibrr",
+      "url": "https://www.kalibrr.com"
+    }
+  ],
+  "endpoints": {
+    "jobs.json": "Semua loker (sorted terbaru)",
+    "latest.json": "100 loker terbaru",
+    "stats.json": "Statistik: jumlah per sumber/kategori/negara",
+    "source/{name}.json": "Per sumber: remoteok, remotive, jobicy, arbeitnow, kalibrr",
+    "category/{name}.json": "Per kategori: legal, marketing, tech, sales, other, operations, support, hr, finance, design, content, data, education, health",
+    "country/{code}.json": "Per negara: GLOBAL, ID"
+  }
+}
