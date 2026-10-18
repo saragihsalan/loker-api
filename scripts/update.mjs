@@ -4,6 +4,7 @@ import { mkdir, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { dedupe, envelope, ATTRIBUTION } from './lib.mjs';
+import { buildSite } from './build-site.mjs';
 import * as remoteok from './sources/remoteok.mjs';
 import * as remotive from './sources/remotive.mjs';
 import * as jobicy from './sources/jobicy.mjs';
@@ -116,3 +117,6 @@ await writePretty('index.json', {
 });
 
 console.log(`\n✓ Selesai. ${all.length} job → ${path.relative(ROOT, API_DIR)} (gagal: ${failedSources} sumber)`);
+
+// 5. Prarender website statis dari data yang sama (SEO + loading instan).
+await buildSite(all, generatedAt);

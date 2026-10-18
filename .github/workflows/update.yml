@@ -26,8 +26,18 @@ jobs:
         with:
           node-version: 20
 
-      - name: Fetch & generate API
+      - name: Fetch, generate API & build web
         run: node scripts/update.mjs
+
+      - name: Pack web ZIP siap upload Hostinger
+        run: cd site && zip -qry ../loker-site.zip .
+
+      - name: Upload artifact web (unduh dari tab Actions)
+        uses: actions/upload-artifact@v4
+        with:
+          name: loker-site
+          path: loker-site.zip
+          retention-days: 30
 
       - name: Commit data snapshot
         run: |

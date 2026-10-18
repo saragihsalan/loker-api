@@ -5,6 +5,11 @@ API loker **gratis**, **selalu terupdate**, dan **set & forget**. Aggregator 9 s
 (Kalibrr, Glints, Dealls, KitaLulus, Lokerbumn, best-effort) — dijalankan otomatis tiap 2 jam oleh GitHub Actions
 dan disajikan lewat GitHub Pages. **Biaya: $0. Tanpa server. Tanpa database.**
 
+Data yang sama juga di-prarender jadi **website loker statis siap SEO** — 1.200+ halaman
+HTML murni (homepage, detail, kategori, lokasi, perusahaan, sumber) yang dibundle jadi
+ZIP siap upload ke hosting (mis. Hostinger `public_html`). Lihat
+[Website loker statis → Hostinger](#website-loker-statis--hostinger).
+
 Setiap loker menyertakan **deskripsi lengkap** + **info perusahaan** (logo, situs, industri,
 deskripsi) dan bila tersedia **benefit, pendidikan, pengalaman, work mode, serta kontak**
 (email/telepon) — bukan sekadar link redirect, jadi siap dipakai membangun web loker
@@ -88,6 +93,8 @@ Cron GitHub Actions (tiap 2 jam)
   → scripts/update.mjs fetch 9 sumber paralel (gagal 1? dilewati, tetap jalan)
   → normalisasi + dedup + filter ≤30 hari
   → tulis public/api/*.json → commit → deploy GitHub Pages
+  → scripts/build-site.mjs prarender site/ (1.200+ halaman HTML statis)
+  → zip site/ → artifact "loker-site" (diunduh dari tab Actions → upload ke hosting)
 ```
 
 - Sumber gagal tidak mematikan pipeline (Promise.allSettled).
@@ -97,8 +104,10 @@ Cron GitHub Actions (tiap 2 jam)
 ## Jalankan lokal
 
 ```bash
-npm run update    # fetch + generate public/api/
-npm run preview   # http://localhost:8788/api/stats.json
+npm run update    # fetch + generate public/api/ + bangun site/
+npm run site      # bangun ulang site/ saja dari data yang ada (tanpa fetch)
+npm run check     # verifikasi site/: link utuh, JSON-LD valid, jumlah halaman cocok
+npm run preview   # http://localhost:8788/ (website) & /api/stats.json (API)
 ```
 
 Butuh Node ≥ 18. **Tanpa `npm install`** — nol dependency, by design.
@@ -108,6 +117,50 @@ Butuh Node ≥ 18. **Tanpa `npm install`** — nol dependency, by design.
 1. Buat repo baru (mis. `loker-api`), lalu push repo ini.
 2. Settings → Pages → Source: **GitHub Actions**.
 3. Selesai — cron jalan tiap 2 jam. Bisa juga di-trigger manual: tab **Actions** → **Refresh loker data** → **Run workflow**.
+
+## Website loker statis → Hostinger
+
+Hasil build `site/` adalah HTML murni (tanpa framework, tanpa webfont, JS hanya di
+halaman search) — **loading instan**, dan sudah lengkap SEO-nya:
+
+- **JSON-LD**: `JobPosting` per detail + `WebSite`/`SearchAction` + `BreadcrumbList` + `Organization`
+- Title & meta description unik, canonical absolut, Open Graph + Twitter card
+- `sitemap.xml` (semua halaman + lastmod), `robots.txt`, `feed.xml` (20 terbaru)
+- Breadcrumbs, `rel=next/prev`, H1 tunggal, internal linking kuat
+- `/cari/` (search client-side) sengaja `noindex`
+- `.htaccess` siap LiteSpeed: gzip, cache jauh (`1y`) untuk aset, `0` untuk HTML, 404 kustom
+
+### Upload ke Hostinger (±1 menit)
+
+1. GitHub repo → tab **Actions** → run terakhir → bagian **Artifacts** → unduh **`loker-site`** (ZIP, retensi 30 hari).
+2. Hostinger **File Manager** → masuk `public_html`.
+3. Upload ZIP → klik kanan → **Extract** — pastikan isinya langsung di root `public_html` (bukan subfolder).
+4. Selesai, situs live. Ulangi tiap mau data terbaru — atau biarkan: run Actions tiap 2 jam selalu menyediakan ZIP baru.
+
+### Ganti domain (saat domain sudah aktif)
+
+Semua URL absolut (canonical, OG, sitemap, JSON-LD) berpusat di **satu baris** —
+`scripts/site.config.mjs`:
+
+```js
+export const SITE_URL = 'https://example.com'; // ← ganti jadi domain asli, tanpa "/" di akhir
+```
+
+Lalu `npm run site` dan upload ulang ZIP-nya. Selama masih placeholder, Google menganggap
+URL pakai `example.com` — jadi **ganti sebelum submit sitemap** di Search Console.
+
+### Struktur output `site/`
+
+| Halaman | Isi |
+|---|---|
+| `/` + `/page/N/` | feed utama, 20 loker/halaman, strip featured |
+| `/loker/{slug}/` | detail: deskripsi penuh, benefit, info perusahaan, tombol lamar |
+| `/kategori/{nama}/`, `/lokasi/{slug}/`, `/perusahaan/{slug}/`, `/sumber/{nama}/` | halaman grup + link balik ke sumber |
+| `/cari/`, `/tentang/` | search client-side, profil + disclaimer |
+| `/api/…` | salinan API — ikut hidup di domain sendiri |
+| `sitemap.xml`, `robots.txt`, `feed.xml`, `404.html`, `.htaccess` | files root |
+
+Repo tidak menyimpan HTML (`site/` di-gitignore) — ZIP artifact adalah kanal distribusi.
 
 ## Sumber data & atribusi
 

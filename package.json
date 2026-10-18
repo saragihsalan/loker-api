@@ -1,7 +1,7 @@
 {
   "name": "loker-api",
   "version": "1.0.0",
-  "description": "API loker gratis & selalu terupdate — aggregator 5 sumber, otomatis via GitHub Actions + Pages",
+  "description": "API loker gratis + website statis SEO otomatis — aggregator 9 sumber, refresh tiap 2 jam via GitHub Actions",
   "type": "module",
   "private": true,
   "engines": {
@@ -9,6 +9,8 @@
   },
   "scripts": {
     "update": "node scripts/update.mjs",
+    "site": "node scripts/build-site.mjs",
+    "check": "node scripts/check.mjs",
     "preview": "node scripts/preview.mjs"
   },
   "license": "MIT"
