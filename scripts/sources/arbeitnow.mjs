@@ -1,5 +1,5 @@
 // Arbeitnow — https://www.arbeitnow.com/api/job-board-api (paginasi ?page=N).
-import { fetchJson, makeJob, stripHtml, toIso, isFresh, classifyCategory, PER_SOURCE_CAP } from '../lib.mjs';
+import { fetchJson, makeJob, stripHtml, toIso, isFresh, classifyCategory, PER_SOURCE_CAP, DESCRIPTION_MAX } from '../lib.mjs';
 
 const SOURCE = 'arbeitnow';
 const PAGES = 2; // 300 job/halaman; 2 halaman sudah menembus kap 500
@@ -32,6 +32,8 @@ export async function fetchJobs() {
         salary: null,
         postedAt: toIso(j.created_at),
         excerpt: stripHtml(j.description),
+        description: stripHtml(j.description, DESCRIPTION_MAX) || null,
+        companyInfo: j.company_logo ? { logo: j.company_logo } : null,
       })
     );
 }

@@ -1,5 +1,5 @@
 // RemoteOK — https://remoteok.com/api (elemen pertama = notice legal, bukan job).
-import { fetchJson, makeJob, stripHtml, toIso, isFresh, classifyCategory, PER_SOURCE_CAP } from '../lib.mjs';
+import { fetchJson, makeJob, stripHtml, toIso, isFresh, classifyCategory, PER_SOURCE_CAP, DESCRIPTION_MAX } from '../lib.mjs';
 
 const SOURCE = 'remoteok';
 
@@ -32,6 +32,8 @@ export async function fetchJobs() {
             : null,
         postedAt: toIso(j.date || j.epoch),
         excerpt: stripHtml(j.description),
+        description: stripHtml(j.description, DESCRIPTION_MAX) || null,
+        companyInfo: { logo: j.company_logo || j.logo || null },
       })
     );
 }

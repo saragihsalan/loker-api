@@ -11,6 +11,8 @@ import * as arbeitnow from './sources/arbeitnow.mjs';
 import * as kalibrr from './sources/kalibrr.mjs';
 import * as glints from './sources/glints.mjs';
 import * as dealls from './sources/dealls.mjs';
+import * as kitalulus from './sources/kitalulus.mjs';
+import * as lokerbumn from './sources/lokerbumn.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const API_DIR = path.join(ROOT, 'public', 'api');
@@ -24,6 +26,8 @@ const SOURCES = [
   ['kalibrr', kalibrr.fetchJobs],
   ['glints', glints.fetchJobs],
   ['dealls', dealls.fetchJobs],
+  ['kitalulus', kitalulus.fetchJobs],
+  ['lokerbumn', lokerbumn.fetchJobs],
 ];
 
 const generatedAt = new Date().toISOString();
@@ -97,7 +101,7 @@ await writePretty('stats.json', {
 
 await writePretty('index.json', {
   name: 'loker-api',
-  description: 'API loker gratis & terupdate — aggregator RemoteOK, Remotive, Jobicy, Arbeitnow, Kalibrr, Glints, Dealls',
+  description: 'API loker gratis & terupdate — aggregator 9 sumber (RemoteOK, Remotive, Jobicy, Arbeitnow, Kalibrr, Glints, Dealls, KitaLulus, Lokerbumn) dengan deskripsi lengkap + info perusahaan',
   generated_at: generatedAt,
   total: all.length,
   attribution: ATTRIBUTION,

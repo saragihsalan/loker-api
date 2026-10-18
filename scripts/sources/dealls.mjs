@@ -46,6 +46,8 @@ export async function fetchJobs() {
           : null,
         postedAt: toIso(j.publishedAt),
         excerpt: '',
+        companyInfo: { logo: j.company?.logoUrl || null },
+        workMode: WORK_MAP[j.workplaceType] || j.workplaceType || null,
       })
     );
 }

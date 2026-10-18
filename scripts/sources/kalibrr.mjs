@@ -1,7 +1,7 @@
 // Kalibrr (Indonesia) — best-effort scraper. Tidak ada API publik, jadi kita baca
 // data embedded __NEXT_DATA__ di halaman job board. Kalau struktur situs berubah,
 // throw → orchestrator mencatat warning dan LANJUT tanpa sumber ini.
-import { fetchText, makeJob, stripHtml, toIso, classifyCategory } from '../lib.mjs';
+import { fetchText, makeJob, stripHtml, toIso, classifyCategory, DESCRIPTION_MAX } from '../lib.mjs';
 
 const SOURCE = 'kalibrr';
 // Catatan: paginasi ?page=/offset= TIDAK bekerja untuk data __NEXT_DATA__
@@ -53,6 +53,7 @@ export async function fetchJobs() {
         salary,
         postedAt: toIso(j.activationDate || j.createdAt),
         excerpt: stripHtml(j.description),
+        description: stripHtml(j.description, DESCRIPTION_MAX) || null,
       });
     });
 }

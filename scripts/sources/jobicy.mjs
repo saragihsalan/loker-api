@@ -1,6 +1,6 @@
 // Jobicy — https://jobicy.com/api/v2/remote-jobs (wajib kredit + tombol apply
 // tetap mengarah ke URL asli, sesuai notice API mereka).
-import { fetchJson, makeJob, stripHtml, toIso, isFresh, classifyCategory, PER_SOURCE_CAP } from '../lib.mjs';
+import { fetchJson, makeJob, stripHtml, toIso, isFresh, classifyCategory, PER_SOURCE_CAP, DESCRIPTION_MAX } from '../lib.mjs';
 
 const SOURCE = 'jobicy';
 
@@ -29,6 +29,7 @@ export async function fetchJobs() {
             : null,
         postedAt: toIso(j.pubDate),
         excerpt: j.jobExcerpt || stripHtml(j.jobDescription),
+        description: stripHtml(j.jobDescription, DESCRIPTION_MAX) || null,
       })
     );
 }

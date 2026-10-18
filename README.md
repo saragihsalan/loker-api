@@ -1,9 +1,14 @@
 # loker-api 🔍
 
-API loker **gratis**, **selalu terupdate**, dan **set & forget**. Aggregator 7 sumber —
-4 API resmi global (RemoteOK, Remotive, Jobicy, Arbeitnow) + 3 sumber Indonesia
-(Kalibrr, Glints, Dealls, best-effort) — dijalankan otomatis tiap 2 jam oleh GitHub Actions
+API loker **gratis**, **selalu terupdate**, dan **set & forget**. Aggregator 9 sumber —
+4 API resmi global (RemoteOK, Remotive, Jobicy, Arbeitnow) + 5 sumber Indonesia
+(Kalibrr, Glints, Dealls, KitaLulus, Lokerbumn, best-effort) — dijalankan otomatis tiap 2 jam oleh GitHub Actions
 dan disajikan lewat GitHub Pages. **Biaya: $0. Tanpa server. Tanpa database.**
+
+Setiap loker menyertakan **deskripsi lengkap** + **info perusahaan** (logo, situs, industri,
+deskripsi) dan bila tersedia **benefit, pendidikan, pengalaman, work mode, serta kontak**
+(email/telepon) — bukan sekadar link redirect, jadi siap dipakai membangun web loker
+dengan tampilan lengkap.
 
 ## Base URL
 
@@ -20,7 +25,7 @@ https://<username>.github.io/loker-api/api
 | `/api/jobs.json` | Semua loker (sorted terbaru) |
 | `/api/latest.json` | 100 loker terbaru |
 | `/api/stats.json` | Statistik jumlah per sumber/kategori/negara |
-| `/api/source/{name}.json` | Per sumber: `remoteok`, `remotive`, `jobicy`, `arbeitnow`, `kalibrr`, `glints`, `dealls` |
+| `/api/source/{name}.json` | Per sumber: `remoteok`, `remotive`, `jobicy`, `arbeitnow`, `kalibrr`, `glints`, `dealls`, `kitalulus`, `lokerbumn` |
 | `/api/category/{name}.json` | Per kategori: `tech`, `design`, `marketing`, `sales`, `support`, `finance`, `hr`, `content`, `data`, `operations`, `education`, `health`, `legal`, `other` |
 | `/api/country/{code}.json` | Per negara: `id` (loker Indonesia), `global` |
 
@@ -56,9 +61,22 @@ ini API statis, sengaja sesederhana mungkin agar bebas biaya selamanya.
   "posted_at": "2026-10-17T08:00:50.000Z",
   "source": "remoteok",
   "url": "https://…",
-  "excerpt": "Potongan deskripsi lowongan…"
+  "excerpt": "Potongan deskripsi lowongan…",
+  "description": "Deskripsi lengkap (≤2000 char, bila tersedia dari sumber)",
+  "company_info": { "logo": "https://…", "website": "https://…", "description": "Profil singkat perusahaan", "industry": "Fintech" },
+  "benefits": ["Asuransi kesehatan", "THR"],
+  "education": "Minimal S1",
+  "experience": "2+ tahun",
+  "work_mode": "Remote"
 }
 ```
+
+Field `description`, `company_info`, `benefits`, `education`, `experience`, dan `work_mode`
+bersifat **opsional** (`null` kalau sumber tidak menyediakannya). Sumber Indonesia
+(KitaLulus, Lokerbumn, Kalibrr) umumnya mengisi `description` penuh + `company_info`;
+KitaLulus juga menyediakan `benefits`, `education`, `experience`, dan `work_mode`.
+Lokerbumn menyertakan kontak (`email` / `telepon`) di `company_info` bila tertanam di posting —
+jadi web loker bisa menampilkan info lengkap, bukan sekadar redirect.
 
 Setiap response punya field `_attribution` berisi link ke sumber — **wajib dipertahankan**
 (syarat ToS sumber data).
@@ -67,7 +85,7 @@ Setiap response punya field `_attribution` berisi link ke sumber — **wajib dip
 
 ```
 Cron GitHub Actions (tiap 2 jam)
-  → scripts/update.mjs fetch 7 sumber paralel (gagal 1? dilewati, tetap jalan)
+  → scripts/update.mjs fetch 9 sumber paralel (gagal 1? dilewati, tetap jalan)
   → normalisasi + dedup + filter ≤30 hari
   → tulis public/api/*.json → commit → deploy GitHub Pages
 ```
@@ -102,6 +120,8 @@ Data disediakan oleh — terima kasih kepada mereka ❤️:
 - [Kalibrr](https://www.kalibrr.com) — tanpa API resmi; diambil best-effort dari halaman publik. Kalau struktur situs berubah, sumber ini dilewati tanpa merusak API.
 - [Glints](https://glints.com) — tanpa API resmi; best-effort dari halaman publik (30 loker Indonesia terbaru).
 - [Dealls](https://dealls.com) — tanpa API resmi; best-effort dari halaman publik (18 loker Indonesia terbaru).
+- [KitaLulus](https://www.kitalulus.com) — GraphQL publik (persisted query); 25–30 loker Indonesia terbaru dengan deskripsi lengkap, benefit, dan info perusahaan.
+- [Lokerbumn](https://lokerbumn.com) — WordPress REST API resmi; 47 loker BUMN/instansi terbaru dengan deskripsi penuh + kontak.
 
 ## Lisensi
 

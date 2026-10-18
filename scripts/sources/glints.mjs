@@ -55,6 +55,14 @@ function locationName(job) {
 
 const TYPE_MAP = { FULL_TIME: 'Full-time', PART_TIME: 'Part-time', CONTRACT: 'Kontrak', INTERNSHIP: 'Magang' };
 
+/** Logo perusahaan Glints: field hanya berisi nama file → bangun URL CDN-nya. */
+function companyLogo(job) {
+  const f = job.company?.logo;
+  if (!f) return null;
+  if (String(f).startsWith('http')) return f;
+  return `https://images.glints.com/unsafe/240x0/glints-dashboard.oss-ap-southeast-1-internal.aliyuncs.com/company-logo/${f}`;
+}
+
 export async function fetchJobs() {
   const html = await fetchHtmlViaCurl(BOARD_URL);
   const jobs = parseBoardPage(html);
@@ -83,6 +91,12 @@ export async function fetchJobs() {
           : null,
         postedAt: toIso(j.createdAt),
         excerpt: '',
+        companyInfo: {
+          logo: companyLogo(j),
+          industry: j.company?.industry?.name || null,
+        },
+        education: j.educationLevel || null,
+        experience: j.minYearsOfExperience != null ? `${j.minYearsOfExperience}+ tahun` : null,
       });
     });
 }

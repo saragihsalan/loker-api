@@ -4,6 +4,9 @@ import { createHash } from 'node:crypto';
 export const RETENTION_DAYS = 30;
 export const PER_SOURCE_CAP = 500;
 export const EXCERPT_MAX = 500;
+// Deskripsi penuh lebih panjang dari excerpt — dipakai biar web loker bisa
+// menampilkan isi lowongan lengkap tanpa harus redirect ke sumber asli.
+export const DESCRIPTION_MAX = 2000;
 export const USER_AGENT =
   'loker-api/1.0 (+https://github.com/; open job aggregator; contact: repo issues)';
 
@@ -42,8 +45,8 @@ export function idFromUrl(url) {
   return createHash('sha1').update(String(url).trim()).digest('hex').slice(0, 16);
 }
 
-/** Buang tag HTML, rapikan whitespace, potong ke EXCERPT_MAX karakter. */
-export function stripHtml(html) {
+/** Buang tag HTML, rapikan whitespace, potong ke `max` karakter (default EXCERPT_MAX). */
+export function stripHtml(html, max = EXCERPT_MAX) {
   if (!html) return '';
   return String(html)
     .replace(/<script[\s\S]*?<\/script>/gi, ' ')
@@ -58,7 +61,7 @@ export function stripHtml(html) {
     .replace(/&#\d+;/g, ' ')
     .replace(/\s+/g, ' ')
     .trim()
-    .slice(0, EXCERPT_MAX);
+    .slice(0, max);
 }
 
 /** Normalisasi tanggal apa pun (unix detik/ms, ISO) → ISO string, atau null. */
@@ -111,8 +114,49 @@ export function classifyCategory(title, ...rest) {
   return 'other';
 }
 
-/** Bangun record ternormalisasi. Field wajib: title, company, url, source. */
-export function makeJob({ title, company, url, source, location, country, jobType, tags, category, salary, postedAt, excerpt }) {
+/**
+ * Bangun record ternormalisasi. Field wajib: title, company, url, source.
+ *
+ * Field enriched (opsional, semua bisa null) — supaya web loker kelak bisa
+ * menampilkan info lengkap tanpa hanya redirect ke sumber:
+ *  - description   : isi lowongan penuh (plain text, ≤ DESCRIPTION_MAX)
+ *  - company_info  : { logo, description, website, email, phone } (null bila kosong)
+ *  - benefits      : string[] benefit/fasilitas
+ *  - education, experience, work_mode : string ringkas bila tersedia
+ */
+export function makeJob({
+  title,
+  company,
+  url,
+  source,
+  location,
+  country,
+  jobType,
+  tags,
+  category,
+  salary,
+  postedAt,
+  excerpt,
+  description = null,
+  companyInfo = null,
+  benefits = null,
+  education = null,
+  experience = null,
+  workMode = null,
+}) {
+  // Rapikan company_info: buang nilai kosong; null bila tidak ada satu pun.
+  let company_info = null;
+  if (companyInfo) {
+    const clean = Object.fromEntries(
+      Object.entries(companyInfo).filter(([, v]) => v != null && v !== '')
+    );
+    if (Object.keys(clean).length) company_info = clean;
+  }
+
+  const cleanBenefits = (benefits || [])
+    .map((b) => String(b).trim())
+    .filter(Boolean);
+
   return {
     id: idFromUrl(url),
     title: String(title).trim(),
@@ -126,6 +170,12 @@ export function makeJob({ title, company, url, source, location, country, jobTyp
     posted_at: postedAt,
     source,
     url,
+    description,
+    company_info,
+    benefits: cleanBenefits.length ? [...new Set(cleanBenefits)].slice(0, 15) : null,
+    education: education || null,
+    experience: experience || null,
+    work_mode: workMode || null,
     excerpt,
   };
 }
@@ -166,4 +216,6 @@ export const ATTRIBUTION = [
   { name: 'Kalibrr', url: 'https://www.kalibrr.com' },
   { name: 'Glints', url: 'https://glints.com' },
   { name: 'Dealls', url: 'https://dealls.com' },
+  { name: 'KitaLulus', url: 'https://www.kitalulus.com' },
+  { name: 'Lokerbumn', url: 'https://lokerbumn.com' },
 ];

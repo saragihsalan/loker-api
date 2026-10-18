@@ -1,7 +1,7 @@
 // Remotive — https://remotive.com/api/remote-jobs (wajib link balik, tidak boleh
 // disubmit ulang ke aggregator pihak ketiga — API publik ini memang untuk didistribusikan
 // dengan atribusi, sesuai notice legal mereka).
-import { fetchJson, makeJob, stripHtml, toIso, isFresh, classifyCategory, PER_SOURCE_CAP } from '../lib.mjs';
+import { fetchJson, makeJob, stripHtml, toIso, isFresh, classifyCategory, PER_SOURCE_CAP, DESCRIPTION_MAX } from '../lib.mjs';
 
 const SOURCE = 'remotive';
 
@@ -44,6 +44,7 @@ export async function fetchJobs() {
         salary: null, // field salary Remotive berupa teks bebas → biarkan null
         postedAt: toIso(j.publication_date),
         excerpt: stripHtml(j.description),
+        description: stripHtml(j.description, DESCRIPTION_MAX) || null,
       })
     );
 }
