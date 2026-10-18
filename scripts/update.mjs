@@ -9,6 +9,8 @@ import * as remotive from './sources/remotive.mjs';
 import * as jobicy from './sources/jobicy.mjs';
 import * as arbeitnow from './sources/arbeitnow.mjs';
 import * as kalibrr from './sources/kalibrr.mjs';
+import * as glints from './sources/glints.mjs';
+import * as dealls from './sources/dealls.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const API_DIR = path.join(ROOT, 'public', 'api');
@@ -20,6 +22,8 @@ const SOURCES = [
   ['jobicy', jobicy.fetchJobs],
   ['arbeitnow', arbeitnow.fetchJobs],
   ['kalibrr', kalibrr.fetchJobs],
+  ['glints', glints.fetchJobs],
+  ['dealls', dealls.fetchJobs],
 ];
 
 const generatedAt = new Date().toISOString();
@@ -93,7 +97,7 @@ await writePretty('stats.json', {
 
 await writePretty('index.json', {
   name: 'loker-api',
-  description: 'API loker gratis & terupdate — aggregator RemoteOK, Remotive, Jobicy, Arbeitnow, Kalibrr',
+  description: 'API loker gratis & terupdate — aggregator RemoteOK, Remotive, Jobicy, Arbeitnow, Kalibrr, Glints, Dealls',
   generated_at: generatedAt,
   total: all.length,
   attribution: ATTRIBUTION,

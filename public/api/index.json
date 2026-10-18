@@ -1,8 +1,8 @@
 {
   "name": "loker-api",
-  "description": "API loker gratis & terupdate — aggregator RemoteOK, Remotive, Jobicy, Arbeitnow, Kalibrr",
-  "generated_at": "2026-10-18T21:50:23.414Z",
-  "total": 737,
+  "description": "API loker gratis & terupdate — aggregator RemoteOK, Remotive, Jobicy, Arbeitnow, Kalibrr, Glints, Dealls",
+  "generated_at": "2026-10-18T22:15:01.010Z",
+  "total": 782,
   "attribution": [
     {
       "name": "RemoteOK",
@@ -23,13 +23,21 @@
     {
       "name": "Kalibrr",
       "url": "https://www.kalibrr.com"
+    },
+    {
+      "name": "Glints",
+      "url": "https://glints.com"
+    },
+    {
+      "name": "Dealls",
+      "url": "https://dealls.com"
     }
   ],
   "endpoints": {
     "jobs.json": "Semua loker (sorted terbaru)",
     "latest.json": "100 loker terbaru",
     "stats.json": "Statistik: jumlah per sumber/kategori/negara",
-    "source/{name}.json": "Per sumber: remoteok, remotive, jobicy, arbeitnow, kalibrr",
+    "source/{name}.json": "Per sumber: remoteok, remotive, jobicy, arbeitnow, kalibrr, glints, dealls",
     "category/{name}.json": "Per kategori: design, marketing, sales, support, legal, tech, other, operations, hr, finance, content, data, education, health",
     "country/{code}.json": "Per negara: GLOBAL, ID"
   }

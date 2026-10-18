@@ -164,4 +164,6 @@ export const ATTRIBUTION = [
   { name: 'Jobicy', url: 'https://jobicy.com' },
   { name: 'Arbeitnow', url: 'https://arbeitnow.com' },
   { name: 'Kalibrr', url: 'https://www.kalibrr.com' },
+  { name: 'Glints', url: 'https://glints.com' },
+  { name: 'Dealls', url: 'https://dealls.com' },
 ];
