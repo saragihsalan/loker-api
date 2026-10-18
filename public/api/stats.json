@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-18T21:26:05.411Z",
+  "generated_at": "2026-10-18T21:50:23.414Z",
   "total": 737,
   "sources_failed": 0,
   "by_source": {
@@ -10,20 +10,20 @@
     "kalibrr": 15
   },
   "by_category": {
+    "design": 33,
+    "marketing": 59,
+    "sales": 96,
+    "support": 43,
     "legal": 5,
-    "marketing": 56,
-    "tech": 177,
-    "sales": 93,
-    "other": 176,
-    "operations": 39,
-    "support": 41,
-    "hr": 20,
+    "tech": 178,
+    "other": 175,
+    "operations": 40,
+    "hr": 21,
     "finance": 39,
-    "design": 31,
     "content": 9,
     "data": 18,
-    "education": 21,
-    "health": 12
+    "education": 7,
+    "health": 14
   },
   "by_country": {
     "GLOBAL": 722,
