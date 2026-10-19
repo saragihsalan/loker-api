@@ -147,7 +147,7 @@ export async function buildSite(jobsInput, generatedAt) {
     </div>
   </div>
 </section>
-<div class="wrap"><div class="cols">
+<div class="wrap page-wrap"><div class="cols">
   <div>
     ${
       featured.length
@@ -197,7 +197,7 @@ export async function buildSite(jobsInput, generatedAt) {
       { name: R.categoryLabel(job.category), path: `/kategori/${job.category}/` },
       { name: job.title },
     ];
-    const main = `${R.breadcrumbs(crumbs)}
+    const main = `<div class="wrap page-wrap">${R.breadcrumbs(crumbs)}
 <article class="detail">
   <div class="detail-head">
     ${R.logoHtml(job)}
@@ -256,7 +256,7 @@ ${
   related.length
     ? `<section class="related"><h2 class="section-title">Lowongan Serupa</h2>${related.map(R.jobCard).join('')}</section>`
     : ''
-}`;
+}</div>`;
     await write(
       `loker/${slug}/index.html`,
       R.page({
@@ -283,17 +283,15 @@ ${
       for (let pg = 1; pg <= tp; pg++) {
         const slice = list.slice((pg - 1) * PER_PAGE, pg * PER_PAGE);
         const p = pg === 1 ? `${prefix}${it.key}/` : `${prefix}${it.key}/page/${pg}/`;
-        const main = `${R.breadcrumbs(crumbs)}
+        const main = `<div class="wrap page-wrap"><div class="cols"><div>
+${R.breadcrumbs(crumbs)}
 <div class="page-head">
   <h1>${R.esc(h1(it))}${pg > 1 ? ` — Halaman ${pg}` : ''}</h1>
   <p class="page-desc">${R.fmtNum(list.length)} lowongan tersedia · Diperbarui ${R.fmtDate(generatedAt)}</p>
 </div>
 ${slice.map(R.jobCard).join('\n')}
 ${R.pagination(`${prefix}${it.key}/`, pg, tp)}
-<div style="margin-top:18px">${sidebar()}</div>`.replace(
-          '<div class="wrap"><div class="cols">',
-          '<div class="wrap"><div class="cols">'
-        );
+</div>${sidebar()}</div></div>`;
         // Tata letak daftar: utama penuh + sidebar di bawah (sudah nyaman di mobile).
         await write(
           `${prefix.slice(1)}${it.key}/${pg > 1 ? `page/${pg}/` : ''}index.html`,
@@ -388,12 +386,12 @@ ${R.pagination(`${prefix}${it.key}/`, pg, tp)}
       path: '/kategori/',
       active: 'kategori',
       jsonLd: [R.ldBreadcrumb([{ name: 'Beranda', path: '/' }, { name: 'Kategori' }])],
-      main: `${R.breadcrumbs([{ name: 'Beranda', path: '/' }, { name: 'Kategori' }])}
+      main: `<div class="wrap page-wrap">${R.breadcrumbs([{ name: 'Beranda', path: '/' }, { name: 'Kategori' }])}
 <div class="page-box">
   <h1>Semua Kategori Lowongan</h1>
   <p class="page-desc">${catList.length} kategori, ${R.fmtNum(jobs.length)} lowongan aktif.</p>
   ${gridCards(catList, (c) => `/kategori/${c.key}/`, (c) => R.categoryLabel(c.key))}
-</div>`,
+</div></div>`,
     })
   );
   addSm('/kategori/', genDate(generatedAt));
@@ -406,12 +404,12 @@ ${R.pagination(`${prefix}${it.key}/`, pg, tp)}
       path: '/lokasi/',
       active: 'lokasi',
       jsonLd: [R.ldBreadcrumb([{ name: 'Beranda', path: '/' }, { name: 'Lokasi' }])],
-      main: `${R.breadcrumbs([{ name: 'Beranda', path: '/' }, { name: 'Lokasi' }])}
+      main: `<div class="wrap page-wrap">${R.breadcrumbs([{ name: 'Beranda', path: '/' }, { name: 'Lokasi' }])}
 <div class="page-box">
   <h1>Lowongan Kerja per Lokasi</h1>
   <p class="page-desc">${locList.length} lokasi dengan lowongan aktif.</p>
   ${gridCards(locList, (l) => `/lokasi/${l.key}/`, (l) => l.label)}
-</div>`,
+</div></div>`,
     })
   );
   addSm('/lokasi/', genDate(generatedAt));
@@ -424,12 +422,12 @@ ${R.pagination(`${prefix}${it.key}/`, pg, tp)}
       path: '/perusahaan/',
       active: 'perusahaan',
       jsonLd: [R.ldBreadcrumb([{ name: 'Beranda', path: '/' }, { name: 'Perusahaan' }])],
-      main: `${R.breadcrumbs([{ name: 'Beranda', path: '/' }, { name: 'Perusahaan' }])}
+      main: `<div class="wrap page-wrap">${R.breadcrumbs([{ name: 'Beranda', path: '/' }, { name: 'Perusahaan' }])}
 <div class="page-box">
   <h1>Perusahaan yang Membuka Lowongan</h1>
   <p class="page-desc">${compList.length} perusahaan aktif merekrut.</p>
   ${gridCards(compList.slice(0, 300), (c) => `/perusahaan/${c.key}/`, (c) => c.label)}
-</div>`,
+</div></div>`,
     })
   );
   addSm('/perusahaan/', genDate(generatedAt));
@@ -442,12 +440,12 @@ ${R.pagination(`${prefix}${it.key}/`, pg, tp)}
       path: '/sumber/',
       active: '',
       jsonLd: [R.ldBreadcrumb([{ name: 'Beranda', path: '/' }, { name: 'Sumber' }])],
-      main: `${R.breadcrumbs([{ name: 'Beranda', path: '/' }, { name: 'Sumber' }])}
+      main: `<div class="wrap page-wrap">${R.breadcrumbs([{ name: 'Beranda', path: '/' }, { name: 'Sumber' }])}
 <div class="page-box">
   <h1>Sumber Data Lowongan</h1>
   <p class="page-desc">Semua lowongan di situs ini dikumpulkan otomatis dari sumber-sumber berikut. Klik untuk melihat lowongannya, atau kunjungi situs resmi untuk melamar.</p>
   ${gridCards(sourceList, (s) => `/sumber/${s.key}/`, (s) => s.label)}
-</div>`,
+</div></div>`,
     })
   );
   addSm('/sumber/', genDate(generatedAt));
@@ -461,7 +459,7 @@ ${R.pagination(`${prefix}${it.key}/`, pg, tp)}
       path: '/cari/',
       noindex: true,
       active: '',
-      main: `<div class="wrap" style="padding-top:26px;padding-bottom:40px">
+      main: `<div class="wrap page-wrap">
 <div class="page-box">
   <h1>Cari Lowongan Kerja</h1>
   <input type="search" id="q" placeholder="Ketik posisi, perusahaan, atau lokasi… (contoh: developer jakarta)" autocomplete="off" autofocus>
@@ -481,7 +479,7 @@ ${R.pagination(`${prefix}${it.key}/`, pg, tp)}
       path: '/tentang/',
       active: 'tentang',
       jsonLd: [R.ldOrganization(), R.ldBreadcrumb([{ name: 'Beranda', path: '/' }, { name: 'Tentang' }])],
-      main: `${R.breadcrumbs([{ name: 'Beranda', path: '/' }, { name: 'Tentang' }])}
+      main: `<div class="wrap page-wrap">${R.breadcrumbs([{ name: 'Beranda', path: '/' }, { name: 'Tentang' }])}
 <div class="page-box">
   <h1>Tentang ${SITE_NAME}</h1>
   <p>${SITE_NAME} adalah agregator lowongan kerja yang mengumpulkan lowongan terbaru dari 9 sumber tepercaya — 4 API resmi global dan 5 sumber Indonesia — lalu menampilkannya secara lengkap: deskripsi, benefit, info perusahaan, hingga kontak. Diperbarui otomatis tiap 2 jam.</p>
@@ -493,7 +491,7 @@ ${R.pagination(`${prefix}${it.key}/`, pg, tp)}
   </ul>
   <h2>Disclaimer</h2>
   <p>${SITE_NAME} bukan perekrut. Kami hanya mengindeks dan menampilkan informasi yang tersedia publik dari sumber di atas — <strong>setiap lamaran diproses langsung di situs sumber asli</strong>. Selalu verifikasi keaslian lowongan sebelum memberikan data pribadi. Ada lowongan bermasalah? Laporkan lewat <a href="https://github.com/saragihsalan/loker-api/issues" target="_blank" rel="noopener">issue repo kami</a>.</p>
-</div>`,
+</div></div>`,
     })
   );
   addSm('/tentang/', genDate(generatedAt));
@@ -557,7 +555,7 @@ ${feedJobs
       path: '/404.html',
       noindex: true,
       active: '',
-      main: `<div class="wrap" style="padding:40px 16px"><div class="page-box center">
+      main: `<div class="wrap page-wrap"><div class="page-box center">
   <h1>404 — Halaman Tidak Ada</h1>
   <p>Lowongan yang dicari mungkin sudah kedaluwarsa atau tautannya salah ketik.</p>
   <p><a class="btn-apply" href="/">Kembali ke Beranda</a></p>

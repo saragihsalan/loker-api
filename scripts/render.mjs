@@ -178,6 +178,7 @@ function head({ title, description, path, jsonLd = [], noindex = false, prev, ne
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b5fff">
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}">
 <meta name="robots" content="${noindex ? 'noindex,follow' : 'index,follow,max-snippet:-1,max-image-preview:large'}">
