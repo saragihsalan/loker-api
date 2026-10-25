@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-25T18:36:50.279Z",
+  "generated_at": "2026-10-25T22:09:57.010Z",
   "total": 858,
   "sources_failed": 1,
   "by_source": {
@@ -11,26 +11,26 @@
     "glints": 0,
     "dealls": 18,
     "kitalulus": 30,
-    "lokerbumn": 50
+    "lokerbumn": 48
   },
   "by_category": {
-    "other": 182,
-    "sales": 108,
-    "data": 31,
-    "tech": 208,
-    "finance": 40,
-    "content": 9,
-    "hr": 21,
-    "operations": 56,
-    "marketing": 70,
-    "support": 49,
-    "health": 15,
-    "education": 23,
+    "other": 188,
+    "sales": 111,
+    "marketing": 68,
+    "hr": 19,
+    "support": 51,
+    "data": 34,
     "design": 37,
+    "tech": 198,
+    "operations": 58,
+    "finance": 41,
+    "health": 15,
+    "content": 8,
+    "education": 21,
     "legal": 9
   },
   "by_country": {
-    "ID": 113,
-    "GLOBAL": 745
+    "ID": 111,
+    "GLOBAL": 747
   }
 }
