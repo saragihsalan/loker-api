@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-10-26T02:14:00.714Z",
-  "total": 865,
+  "generated_at": "2026-10-26T09:28:44.532Z",
+  "total": 870,
   "sources_failed": 1,
   "by_source": {
     "remoteok": 61,
@@ -14,23 +14,23 @@
     "lokerbumn": 50
   },
   "by_category": {
-    "other": 188,
-    "finance": 44,
-    "support": 56,
-    "sales": 113,
-    "tech": 197,
-    "operations": 59,
-    "marketing": 68,
-    "hr": 20,
-    "education": 19,
-    "design": 38,
-    "legal": 8,
-    "data": 32,
-    "health": 15,
-    "content": 8
+    "education": 7,
+    "other": 199,
+    "sales": 137,
+    "support": 58,
+    "tech": 193,
+    "finance": 38,
+    "marketing": 66,
+    "health": 16,
+    "hr": 24,
+    "data": 33,
+    "operations": 52,
+    "legal": 11,
+    "design": 31,
+    "content": 5
   },
   "by_country": {
-    "ID": 113,
-    "GLOBAL": 752
+    "ID": 112,
+    "GLOBAL": 758
   }
 }
