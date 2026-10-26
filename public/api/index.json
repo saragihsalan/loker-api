@@ -1,8 +1,8 @@
 {
   "name": "loker-api",
   "description": "API loker gratis & terupdate — aggregator 9 sumber (RemoteOK, Remotive, Jobicy, Arbeitnow, Kalibrr, Glints, Dealls, KitaLulus, Lokerbumn) dengan deskripsi lengkap + info perusahaan",
-  "generated_at": "2026-10-26T16:22:03.129Z",
-  "total": 860,
+  "generated_at": "2026-10-26T22:03:44.987Z",
+  "total": 833,
   "attribution": [
     {
       "name": "RemoteOK",
@@ -46,7 +46,7 @@
     "latest.json": "100 loker terbaru",
     "stats.json": "Statistik: jumlah per sumber/kategori/negara",
     "source/{name}.json": "Per sumber: remoteok, remotive, jobicy, arbeitnow, kalibrr, glints, dealls, kitalulus, lokerbumn",
-    "category/{name}.json": "Per kategori: other, sales, finance, marketing, tech, support, hr, content, education, design, operations, data, health, legal",
+    "category/{name}.json": "Per kategori: sales, other, finance, marketing, operations, health, tech, design, data, support, hr, content, education, legal",
     "country/{code}.json": "Per negara: ID, GLOBAL"
   }
 }
