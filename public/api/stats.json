@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-11-04T03:50:31.537Z",
-  "total": 762,
+  "generated_at": "2026-11-04T11:43:38.939Z",
+  "total": 759,
   "sources_failed": 1,
   "by_source": {
-    "remoteok": 67,
-    "remotive": 9,
+    "remoteok": 68,
+    "remotive": 10,
     "jobicy": 100,
     "arbeitnow": 500,
     "kalibrr": 15,
@@ -14,23 +14,23 @@
     "lokerbumn": 50
   },
   "by_category": {
-    "other": 201,
-    "tech": 160,
-    "operations": 30,
-    "data": 13,
-    "marketing": 64,
-    "design": 26,
-    "finance": 60,
-    "support": 51,
-    "sales": 111,
-    "hr": 16,
-    "legal": 10,
-    "health": 10,
+    "other": 198,
+    "sales": 83,
+    "marketing": 63,
+    "tech": 190,
+    "finance": 63,
+    "design": 30,
+    "hr": 19,
+    "support": 39,
+    "operations": 27,
+    "education": 5,
+    "data": 17,
     "content": 4,
-    "education": 6
+    "legal": 13,
+    "health": 8
   },
   "by_country": {
-    "ID": 113,
-    "GLOBAL": 649
+    "ID": 112,
+    "GLOBAL": 647
   }
 }
